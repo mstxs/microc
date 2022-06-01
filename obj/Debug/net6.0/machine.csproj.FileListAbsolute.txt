@@ -1,0 +1,15 @@
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\bin\Debug\net6.0\machine.exe
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\bin\Debug\net6.0\machine.deps.json
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\bin\Debug\net6.0\machine.runtimeconfig.json
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\bin\Debug\net6.0\machine.dll
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\bin\Debug\net6.0\ref\machine.dll
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\bin\Debug\net6.0\machine.pdb
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.csproj.AssemblyReference.cache
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.AssemblyInfoInputs.cache
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.AssemblyInfo.cs
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.dll
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\ref\machine.dll
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.pdb
+C:\Users\PC\Desktop\编译原理\lecbighomework\microc\obj\Debug\net6.0\machine.genruntimeconfig.cache
