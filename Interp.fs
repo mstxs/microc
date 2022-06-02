@@ -256,6 +256,23 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
         else
             exec stmt2 locEnv gloEnv store1 //False分支
 
+
+    | Switch(e,body) ->  
+              let (res, store1) = eval e locEnv gloEnv store
+              let rec choose list =
+                match list with
+                | Case(e1,body1) :: tail -> 
+                    let (res2, store2) = eval e1 locEnv gloEnv store1
+                    if res2=res then exec body1 locEnv gloEnv store2
+                                else choose tail
+                | [] -> store1
+                | Default( body1 ) :: tail -> 
+                    exec body1 locEnv gloEnv store1
+                    choose tail
+              (choose body)
+    | Case(e,body) -> exec body locEnv gloEnv store
+    // | Case (e, body) -> exec body locEnv gloEnv store
+    // | Default body -> exec body locEnv gloEnv store
     | While (e, body) ->
 
         //定义 While循环辅助函数 loop
@@ -359,6 +376,10 @@ and eval e locEnv gloEnv store : int * store =
             | _ -> failwith ("unknown primitive " + ope)
 
         (res, store2)
+    | Prim3 (e1, e2, e3) ->
+         let (v, store1) = eval e1 locEnv gloEnv store  // 求条件的值
+         if v<>0 then eval e2 locEnv gloEnv store1  // true执行e2
+                 else eval e3 locEnv gloEnv store1  // false执行e3
     | Andalso (e1, e2) ->
         let (i1, store1) as res = eval e1 locEnv gloEnv store
 

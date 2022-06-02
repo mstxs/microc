@@ -12,21 +12,26 @@ open Absyn
 
 let compose1 f (g, s) = ((fun x -> g(f(x))), s)
 let nl = CstI 10 //  \n 的 ASCII 码
+
+
+
+
 %}
 
 %token <int> CSTINT CSTBOOL  // <int> 是词元的语义值类型
 %token <string> CSTSTRING NAME
 
-%token CHAR ELSE IF INT NULL PRINT PRINTLN RETURN VOID WHILE
+%token BREAK CASE CHAR DEFAULT DO ELSE FOR IF INT NULL PRINT PRINTLN RETURN SWITCH VOID WHILE
 %token PLUS MINUS TIMES DIV MOD
 %token SELFINC SELFDEC  // 自增自减
 %token EQ NE GT LT GE LE
 %token NOT SEQOR SEQAND
-%token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
+%token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP QUES COLON 
 %token EOF
 
 %right ASSIGN             /* lowest precedence */  // 最下面的优先级最高
 %nonassoc PRINT
+%nonassoc QUES COLON
 %left SEQOR
 %left SEQAND
 %left EQ NE 
@@ -136,13 +141,24 @@ StmtM:  /* No unbalanced if-else */
   | RETURN Expr SEMI                    { Return(Some($2))     }
   | Block                               { $1                   }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
+  | SWITCH LPAR Expr RPAR LBRACE StmtCase RBRACE  { Switch($3,$6)  }
+  | BREAK SEMI                          { Break }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
+  | FOR LPAR Expr SEMI Expr SEMI Expr RPAR StmtM  { For($3, $5, $7, $9) }
+  | DO StmtM WHILE LPAR Expr RPAR SEMI  { DoWhile($2, $5)       }
+  | DO StmtM UNTIL LPAR Expr RPAR SEMI  { DoUntil($2, $5)   }
 ;
 
 StmtU:
     IF LPAR Expr RPAR StmtM ELSE StmtU  { If($3, $5, $7)       }
   | IF LPAR Expr RPAR Stmt              { If($3, $5, Block []) }
   | WHILE LPAR Expr RPAR StmtU          { While($3, $5)        }
+;
+
+StmtCase:
+    CASE AtExprNotAccess COLON StmtM               { [Case($2,$4)]    }  
+  | DEFAULT COLON StmtM                            { [Default($3)]    }
+  | CASE AtExprNotAccess COLON StmtM StmtCase      { Case($2,$4) :: $5}
 ;
 
 Expr: 
@@ -172,6 +188,7 @@ ExprNotAccess:
   | Expr LT    Expr                     { Prim2("<",  $1, $3) }
   | Expr GE    Expr                     { Prim2(">=", $1, $3) }
   | Expr LE    Expr                     { Prim2("<=", $1, $3) }
+  | Expr QUES Expr COLON Expr           { Prim3($1, $3, $5)}
   | Expr SEQAND Expr                    { Andalso($1, $3)     }
   | Expr SEQOR  Expr                    { Orelse($1, $3)      }
 ;
