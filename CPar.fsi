@@ -34,7 +34,9 @@ type token =
   | CASE
   | CHAR
   | DEFAULT
+  | DO
   | ELSE
+  | FOR
   | IF
   | INT
   | NULL
@@ -42,6 +44,7 @@ type token =
   | PRINTLN
   | RETURN
   | SWITCH
+  | UNTIL
   | VOID
   | WHILE
   | CSTSTRING of (string)
@@ -82,7 +85,9 @@ type tokenId =
     | TOKEN_CASE
     | TOKEN_CHAR
     | TOKEN_DEFAULT
+    | TOKEN_DO
     | TOKEN_ELSE
+    | TOKEN_FOR
     | TOKEN_IF
     | TOKEN_INT
     | TOKEN_NULL
@@ -90,6 +95,7 @@ type tokenId =
     | TOKEN_PRINTLN
     | TOKEN_RETURN
     | TOKEN_SWITCH
+    | TOKEN_UNTIL
     | TOKEN_VOID
     | TOKEN_WHILE
     | TOKEN_CSTSTRING

@@ -169,6 +169,13 @@ let x86patch code =
    * funEnv  is the global function environment
 *)
 
+
+let mutable lablist : label list = []
+let rec dellab labs =
+    match labs with
+        | lab :: tr ->   tr
+        | []        ->   []
+
 let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
     match stmt with
     | If (e, stmt1, stmt2) ->
@@ -211,12 +218,12 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
         lablist <- [labend; labtest; labbegin] @ lablist
 
         let instr = 
-            cExpr e1 varEnv funEnv structEnv
+            cExpr e1 varEnv funEnv
             @ [INCSP -1] @ [ GOTO labtest; Label labbegin ]
-                @ cStmt body varEnv funEnv structEnv
-                    @ cExpr e3 varEnv funEnv structEnv @ [INCSP -1]
+                @ cStmt body varEnv funEnv
+                    @ cExpr e3 varEnv funEnv @ [INCSP -1]
                     @ [ Label labtest ]
-                        @ cExpr e2 varEnv funEnv structEnv @ [ IFNZRO labbegin; Label labend ]
+                        @ cExpr e2 varEnv funEnv @ [ IFNZRO labbegin; Label labend ]
         // [INCSP -7] @ cExpr e1 varEnv funEnv @ [INCSP -1]
         // @ [ GOTO labtest; Label labbegin ] @ [INCSP -7]
         //   @ cStmt body varEnv funEnv @ [INCSP -7]
