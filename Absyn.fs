@@ -15,12 +15,18 @@ type typ =
   | TypC                             (* Type char                   *)
   | TypA of typ * int option         (* Array type                  *)
   | TypP of typ                      (* Pointer type                *)
+  | TypS
+  | TypF
+  | TypB
                                                                    
 and expr =                           // 表达式，右值                                                
   | Access of access                 (* x    or  *p    or  a[e]     *) //访问左值（右值）
   | Assign of access * expr          (* x=e  or  *p=e  or  a[e]=e   *)
   | Addr of access                   (* &x   or  &*p   or  &a[e]    *)
   | CstI of int                      (* Constant                    *)
+  | CstC of char                     (* char类型  *)
+  | CstS of string
+  | CstF of float32
   | Prim1 of string * expr           (* Unary primitive operator    *)
   | Prim2 of string * expr * expr    (* Binary primitive operator   *)
   | Prim3 of expr * expr * expr      (* 三目运算 e1 ? e2 : e3 *)
@@ -32,7 +38,11 @@ and expr =                           // 表达式，右值
   | NextInc of access                  (*x++ or a[i]--*)
   | NextDec of access                  (*x-- or a[i]--*)
   | ToChar of expr
-  | ToInt of expr                                                        
+  | ToInt of expr                                          
+  | Max of expr * expr               (* Max function                *)
+  | Min of expr * expr               (* Min function                *)
+  | Abs of expr                      (* Abs function                *)
+
 and access =                         //左值，存储的位置                                            
   | AccVar of string                 (* Variable access        x    *) 
   | AccDeref of expr                 (* Pointer dereferencing  *p   *)

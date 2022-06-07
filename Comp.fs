@@ -358,7 +358,29 @@ and cExpr (e: expr) (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
             @ [ GOTO labend ]
               @ [ Label labelse ]
                 @ cExpr e3 varEnv funEnv @ [ Label labend ]
-
+    | Max(e1, e2) ->
+          let labtrue = newLabel()
+          let labend = newLabel()
+          cExpr e1 varEnv funEnv  
+              @ cExpr e2 varEnv funEnv @ [LT] @ [IFNZRO labtrue]
+                  @ cExpr e1 varEnv funEnv 
+                      @ [GOTO labend; Label labtrue] 
+                          @ cExpr e2 varEnv funEnv @ [Label labend]
+    | Min(e1, e2) ->
+        let labtrue = newLabel()
+        let labend = newLabel()
+        cExpr e1 varEnv funEnv 
+            @ cExpr e2 varEnv funEnv @ [LT] @ [IFNZRO labtrue]
+                @ cExpr e2 varEnv funEnv 
+                    @ [GOTO labend; Label labtrue] 
+                        @ cExpr e1 varEnv funEnv @ [Label labend]
+ //   | Abs(e) ->
+ //        let lab1 = newLabel()
+ //        let lab2 = newLabel()
+ //        cExpr e varEnv funEnv @ [CSTI 0] @ [LT] @ [IFNZRO lab1] 
+ //            @ cExpr e varEnv funEnv @ [GOTO lab2; Label lab1] 
+ //                @ cExpr e varEnv funEnv @ [NEG] @ [Label lab2]    //NEG求补
+  
     | Andalso (e1, e2) ->
         let labend = newLabel ()
         let labfalse = newLabel ()

@@ -415,6 +415,20 @@ and eval e locEnv gloEnv store : int * store =
          let (v, store1) = eval e1 locEnv gloEnv store  // 求条件的值
          if v<>0 then eval e2 locEnv gloEnv store1  // true执行e2
                  else eval e3 locEnv gloEnv store1  // false执行e3
+
+    | Max (e1, e2) ->
+        let (i1, store1) = eval e1 locEnv gloEnv store
+        let (i2, store2) = eval e2 locEnv gloEnv store1
+        let res = (if i1 > i2 then i1 else i2)
+        (res, store2)
+    | Min (e1, e2) ->
+        let (i1, store1) = eval e1 locEnv gloEnv store
+        let (i2, store2) = eval e2 locEnv gloEnv store1
+        let res = (if i1 < i2 then i1 else i2)
+        (res, store2)
+    | Abs e ->
+        let (i, store1) = eval e locEnv gloEnv store
+        (abs(i), store1)
     | Andalso (e1, e2) ->
         let (i1, store1) as res = eval e1 locEnv gloEnv store
 
